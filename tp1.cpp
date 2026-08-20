@@ -174,8 +174,9 @@ void CustomVector::push_back(int value) {
     
         delete[] data;
             data = temp;
-    } else {data[length] = value;}
-
+    } else {
+        this->length += 1;
+        data[length-1] = value;}
     }
     
 
@@ -201,13 +202,22 @@ CustomVector *war_winner(const CustomVector &a, const CustomVector &b) {
     if (lengthA <= lengthB) {largoMenor = lengthA;}
     else {largoMenor = lengthB;}
 
-    CustomVector vector = CustomVector(largoMenor);
+    CustomVector *vector = new CustomVector(largoMenor);
+
+    for (int i = 0; i < largoMenor; i++) {
+        int ganador;
+
+        if (a[i] > b[i]) {ganador = a[i];}
+        else {ganador = b[i];}
+        (*vector)[i] = ganador;
+    }
 
     return vector;
 }
 
 void destroy_vector(CustomVector *vector) {
     // TODO: liberar vector con delete (versión escalar, sin []).
+    if (vector != nullptr) {delete vector;}
 }
 
 CustomVector *tournament_champion(CustomVector **decks, int num_decks) {
