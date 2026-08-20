@@ -224,5 +224,12 @@ CustomVector *tournament_champion(CustomVector **decks, int num_decks) {
     // TODO: enfrentar decks[0] contra cada mazo siguiente con
     // war_winner, liberando el campeón anterior y el mazo que
     // perdió en cada pelea, y devolver el campeón final.
-    return nullptr;
+    CustomVector *campeon = decks[0];
+
+    for (int i = 1; i < num_decks; i++) {
+        CustomVector *ganador = war_winner(*campeon, *decks[i]);
+        delete campeon;
+        campeon = ganador;
+    }
+    return campeon;
 }
