@@ -64,7 +64,8 @@ CustomVector::CustomVector(const CustomVector &other) {
 CustomVector &CustomVector::operator=(const CustomVector &other) {
     // TODO: liberar lo anterior y hacer una copia profunda de 'other'
     // (incluida capacity).
-    delete this;
+    delete[] this->data;
+
     this->capacity = other.capacity;
     this->length = other.length;
     for (int i = 0; i < length; i++) {
@@ -158,6 +159,18 @@ int CustomVector::get_capacity() const {
 void CustomVector::push_back(int value) {
     // TODO: agregar 'value' al final del vector, creciendo la capacity
     // si hace falta.
+    this->length+=1;
+    this->capacity += 1;
+    int* temp = new int[length];
+
+    for (int i=0; i < length -1; i++) {
+        temp[i] = data[i];
+    }
+
+    data[length] = value;
+
+    delete[] data;
+    data = temp;
 }
 
 void CustomVector::remove() {
