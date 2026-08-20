@@ -228,8 +228,11 @@ CustomVector *tournament_champion(CustomVector **decks, int num_decks) {
 
     for (int i = 1; i < num_decks; i++) {
         CustomVector *ganador = war_winner(*campeon, *decks[i]);
-        delete campeon;
+        destroy_vector(campeon);
+        destroy_vector(decks[i]);
         campeon = ganador;
     }
+
+    delete[] decks;
     return campeon;
 }
