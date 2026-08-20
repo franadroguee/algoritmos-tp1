@@ -56,6 +56,7 @@ CustomVector::CustomVector(const CustomVector &other) {
     // TODO: copia profunda del contenido de 'other' (incluida capacity).
     this->length = other.length;
     this->capacity = other.capacity;
+    this->data = new int[capacity];
     for (int i = 0; i < length; i++) {
         this->data[i] = other.data[i];
     }   
@@ -68,6 +69,7 @@ CustomVector &CustomVector::operator=(const CustomVector &other) {
 
     this->capacity = other.capacity;
     this->length = other.length;
+    this->data = new int[other.capacity];
     for (int i = 0; i < length; i++) {
         this->data[i] = other.data[i];
     }   
@@ -159,23 +161,30 @@ int CustomVector::get_capacity() const {
 void CustomVector::push_back(int value) {
     // TODO: agregar 'value' al final del vector, creciendo la capacity
     // si hace falta.
-    this->length+=1;
-    this->capacity += 1;
-    int* temp = new int[length];
+    if (capacity < length + 1) {
+        this->length += 1;
+        this->capacity += 1;
+        int* temp = new int[length];
+    
+        for (int i=0; i < length -1; i++) {
+            temp[i] = data[i];
+        }
+    
+        temp[length-1] = value;
+    
+        delete[] data;
+            data = temp;
+    } else {data[length] = value;}
 
-    for (int i=0; i < length -1; i++) {
-        temp[i] = data[i];
     }
-
-    data[length] = value;
-
-    delete[] data;
-    data = temp;
-}
+    
 
 void CustomVector::remove() {
     // TODO: quitar el último elemento del vector. Si está vacío, no
     // hacer nada.
+    if (length > 0) {
+        this->length -= 1;
+    }
 }
 
 /* ---------------------------------------------------------------
@@ -185,7 +194,16 @@ void CustomVector::remove() {
 CustomVector *war_winner(const CustomVector &a, const CustomVector &b) {
     // TODO: devolver un CustomVector nuevo con el ganador de cada
     // ronda (el máximo entre a[i] y b[i]).
-    return nullptr;
+    int lengthA = a.get_length();
+    int lengthB = b.get_length();
+    int largoMenor;
+
+    if (lengthA <= lengthB) {largoMenor = lengthA;}
+    else {largoMenor = lengthB;}
+
+    CustomVector vector = CustomVector(largoMenor);
+
+    return vector;
 }
 
 void destroy_vector(CustomVector *vector) {
